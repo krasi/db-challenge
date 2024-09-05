@@ -1,0 +1,18 @@
+<p-card
+  header="Welcome back"
+  subheader="This will take you to your colleague list"
+>
+  <div class="user">
+    <app-user [user]="user" />
+  </div>
+  <ng-template pTemplate="footer">
+    <div class="actions">
+      <p-button size="large" label="Click here to sign in" />
+      <p-button
+        size="small"
+        [outlined]="true"
+        label="Or use a different account"
+      />
+    </div>
+  </ng-template>
+</p-card>

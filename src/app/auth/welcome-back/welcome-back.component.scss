@@ -1,0 +1,13 @@
+:host {
+  .user {
+    padding: 1rem;
+    box-shadow: var(--focus-ring);
+    border-radius: var(--border-radius);
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

@@ -1,0 +1,10 @@
+@let userData = user();
+@let firstLetter = userData ? userData.name[0] : "";
+
+<div class="user">
+  <p-avatar size="xlarge" [label]="firstLetter" />
+  <div class="user__details">
+    <div class="user__name">{{ userData?.name }}</div>
+    <div class="user__title">{{ userData?.title }}</div>
+  </div>
+</div>

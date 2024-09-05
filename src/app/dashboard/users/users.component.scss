@@ -1,0 +1,36 @@
+:host {
+  .header {
+    padding: 1rem 1rem 0;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
+
+  .row {
+    &__actions {
+      opacity: 0;
+      transition: 0.25s ease-out opacity;
+    }
+
+    &:hover .row__actions {
+      opacity: 1;
+    }
+  }
+
+  .footer-actions {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+}
