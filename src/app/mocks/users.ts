@@ -8,6 +8,7 @@ export const usersMock: User[] = [
     name: 'Krasimir Stavrev',
     title: 'Senior Software Engineer',
     department: 'Technology',
+    admin: true,
   },
   ...Array(65)
     .fill(null)

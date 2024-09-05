@@ -16,7 +16,10 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { type User } from '../../types/User';
 import { UserComponent } from '../../core/user/user.component';
 import { UserFormComponent } from '../user-form/user-form.component';
-import { first } from 'rxjs';
+import { first, Observable } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { selectAllUsers } from '../../store/user/user.selectors';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-users',
@@ -33,21 +36,14 @@ import { first } from 'rxjs';
     UserComponent,
     ConfirmPopupModule,
     ToastModule,
+    AsyncPipe,
   ],
   providers: [ConfirmationService, MessageService, DialogService],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss',
 })
 export class UsersComponent {
-  users: User[] = [
-    {
-      id: 0,
-      name: 'Krasimir Stavrev',
-      email: 'krasimir@stavrev.dev',
-      title: 'Senior Software Engineer',
-      department: 'Technology',
-    },
-  ];
+  users$: Observable<User[]> = this.store.pipe(select(selectAllUsers));
   selectedUsers: number[] = [];
   ref: DynamicDialogRef | undefined;
 
@@ -55,6 +51,7 @@ export class UsersComponent {
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private dialogService: DialogService,
+    private store: Store,
   ) {}
 
   confirmRemove(event: Event, user?: User) {

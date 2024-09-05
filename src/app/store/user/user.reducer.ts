@@ -7,11 +7,16 @@ import { usersMock } from '../../mocks/users';
 
 export const adapter: EntityAdapter<User> = createEntityAdapter<User>();
 
-export type State = EntityState<User>;
+export type UserState = EntityState<User>;
 
-export const initialState: State = adapter.getInitialState();
+export const initialState: UserState = adapter.getInitialState({
+  loading: false,
+  error: null,
+});
 
 export const userReducer = createReducer(
   initialState,
   on(populate, (state) => adapter.addMany(usersMock, state)),
 );
+
+export const { selectAll, selectTotal } = adapter.getSelectors();

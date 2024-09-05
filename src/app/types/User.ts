@@ -4,4 +4,5 @@ export interface User {
   email: string;
   title: string;
   department: string;
+  admin?: boolean;
 }
