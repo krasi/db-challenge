@@ -1,0 +1,31 @@
+<div class="form">
+  <label class="form__field">
+    Name
+    <input placeholder="Name" type="text" pInputText [formControl]="name" />
+  </label>
+  <label class="form__field">
+    Email Address
+    <input
+      placeholder="Email Address"
+      type="text"
+      pInputText
+      [formControl]="email"
+    />
+  </label>
+  <label class="form__field">
+    Title
+    <input placeholder="Title" type="text" pInputText [formControl]="title" />
+  </label>
+  <label class="form__field">
+    Department
+    <input
+      placeholder="Department"
+      type="text"
+      pInputText
+      [formControl]="department"
+    />
+  </label>
+  <div class="save">
+    <p-button (onClick)="save()" label="Save" />
+  </div>
+</div>

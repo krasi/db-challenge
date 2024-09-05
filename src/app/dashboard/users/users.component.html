@@ -23,7 +23,11 @@
             </p-inputIcon>
             <input pInputText type="text" placeholder="Search" />
           </p-iconField>
-          <p-button label="New" icon="pi pi-plus" />
+          <p-button
+            label="New"
+            (onClick)="openUserDialog()"
+            icon="pi pi-plus"
+          />
         </div>
       </div>
     </ng-template>
@@ -58,13 +62,19 @@
         <td>{{ user.department }}</td>
         <td>
           <div class="row__actions">
-            <p-button label="Edit" severity="help" [text]="true" size="small" />
+            <p-button
+              label="Edit"
+              severity="help"
+              [text]="true"
+              size="small"
+              (onClick)="openUserDialog(user)"
+            />
             <p-button
               label="Delete"
               severity="danger"
               [text]="true"
               size="small"
-              (click)="confirmRemove($event, user)"
+              (onClick)="confirmRemove($event, user)"
             />
           </div>
         </td>
@@ -79,7 +89,7 @@
               size="small"
               [text]="true"
               severity="danger"
-              (click)="confirmRemove($event)"
+              (onClick)="confirmRemove($event)"
             />
             <p-button
               label="De-select all"

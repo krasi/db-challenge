@@ -10,10 +10,13 @@ import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ToastModule } from 'primeng/toast';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 import { type User } from '../../types/User';
 import { UserComponent } from '../../core/user/user.component';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { UserFormComponent } from '../user-form/user-form.component';
+import { first } from 'rxjs';
 
 @Component({
   selector: 'app-users',
@@ -31,7 +34,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
     ConfirmPopupModule,
     ToastModule,
   ],
-  providers: [ConfirmationService, MessageService],
+  providers: [ConfirmationService, MessageService, DialogService],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss',
 })
@@ -45,12 +48,13 @@ export class UsersComponent {
       department: 'Technology',
     },
   ];
-
   selectedUsers: number[] = [];
+  ref: DynamicDialogRef | undefined;
 
   constructor(
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
+    private dialogService: DialogService,
   ) {}
 
   confirmRemove(event: Event, user?: User) {
@@ -73,6 +77,25 @@ export class UsersComponent {
           life: 3000,
         });
       },
+    });
+  }
+
+  openUserDialog(user?: User) {
+    this.ref = this.dialogService.open(UserFormComponent, {
+      header: user ? 'Edit an employee' : 'Add an employee',
+      data: {
+        user,
+      },
+    });
+
+    this.ref.onClose.pipe(first()).subscribe((data) => {
+      if (data?.action) {
+        this.messageService.add({
+          severity: 'contrast',
+          summary: data?.action === 'added' ? 'User added' : 'User updated',
+          life: 3000,
+        });
+      }
     });
   }
 }

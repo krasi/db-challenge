@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WelcomeBackComponent } from './welcome-back.component';
+import { UserFormComponent } from './user-form.component';
 
-describe('WelcomeBackComponent', () => {
-  let component: WelcomeBackComponent;
-  let fixture: ComponentFixture<WelcomeBackComponent>;
+describe('UserFormComponent', () => {
+  let component: UserFormComponent;
+  let fixture: ComponentFixture<UserFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WelcomeBackComponent],
+      imports: [UserFormComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(WelcomeBackComponent);
+    fixture = TestBed.createComponent(UserFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
