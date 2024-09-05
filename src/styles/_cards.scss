@@ -9,8 +9,16 @@
       color: var(--gray-900);
     }
 
-    &-footer .p-button {
-      width: 100%;
+    &-footer {
+      .p-button {
+        width: 100%;
+      }
+    }
+  }
+
+  .no-padding .p-card {
+    &-body {
+      padding: 0;
     }
   }
 }
