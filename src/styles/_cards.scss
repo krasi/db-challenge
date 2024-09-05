@@ -1,0 +1,16 @@
+@layer app {
+  .p-card {
+    &-body {
+      padding: 2rem;
+    }
+
+    &-title {
+      font-size: 2rem;
+      color: var(--gray-900);
+    }
+
+    &-footer .p-button {
+      width: 100%;
+    }
+  }
+}

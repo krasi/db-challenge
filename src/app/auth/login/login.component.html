@@ -1,0 +1,30 @@
+<p-card header="Sign In" subheader="This will take you to your colleague list">
+  <div class="form">
+    <label class="form__field">
+      Email Address
+      <input
+        placeholder="Email Address"
+        type="text"
+        pInputText
+        [formControl]="email"
+      />
+    </label>
+    <label class="form__field">
+      Password
+      <input
+        placeholder="Password"
+        type="text"
+        pInputText
+        [formControl]="password"
+      />
+    </label>
+    <!-- eslint-disable-next-line @angular-eslint/template/label-has-associated-control -->
+    <label class="form__checkbox">
+      <p-checkbox [formControl]="remember" [value]="true" />
+      Remember me
+    </label>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button label="Sign In" />
+  </ng-template>
+</p-card>
