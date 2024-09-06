@@ -1,8 +1,13 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
-import { first, map, Observable } from 'rxjs';
+import { filter, first, map, Observable, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { CardModule } from 'primeng/card';
@@ -26,6 +31,7 @@ import {
 } from '../../store/user/user.selectors';
 import { logout } from '../../store/auth/auth.actions';
 import { deleteUsers } from '../../store/user/user.actions';
+import { selectAuthUser } from '../../store/auth/auth.selectors';
 
 @Component({
   selector: 'app-users',
@@ -50,9 +56,21 @@ import { deleteUsers } from '../../store/user/user.actions';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersComponent {
+  currentUser$: Observable<User> = this.store.select(selectAuthUser).pipe(
+    tap((user) => {
+      if (!user) {
+        this.logout();
+      }
+    }),
+    filter((user) => !!user),
+    tap((user) => {
+      this.isAdmin.set(!!user.admin);
+    }),
+  );
   users$: Observable<User[]> = this.store.select(selectAllUsers);
   selectedUsers: number[] = [];
   ref: DynamicDialogRef | undefined;
+  isAdmin = signal(false);
   @ViewChild('table') table?: Table;
 
   constructor(
@@ -64,6 +82,9 @@ export class UsersComponent {
   ) {}
 
   confirmRemove(event: Event, user?: User) {
+    if (!this.isAdmin()) {
+      return;
+    }
     const message = user
       ? `Are you sure you want to remove ${user.name}`
       : `Are you sure you want to remove ${this.selectedUsers.length} users`;
@@ -110,6 +131,9 @@ export class UsersComponent {
   }
 
   openUserDialog(user?: User) {
+    if (!this.isAdmin()) {
+      return;
+    }
     this.ref = this.dialogService.open(UserFormComponent, {
       header: user ? 'Edit an employee' : 'Add an employee',
       data: {
