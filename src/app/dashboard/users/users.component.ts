@@ -149,10 +149,11 @@ export class UsersComponent implements OnInit {
     this.ref = this.dialogService.open(UserFormComponent, {
       header: user ? 'Edit an employee' : 'Add an employee',
       data: {
-        user: {
-          ...user,
-          id: this.nextId(),
-        },
+        user: user
+          ? user
+          : {
+              id: this.nextId(),
+            },
       },
     });
 
