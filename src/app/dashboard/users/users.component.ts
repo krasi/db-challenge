@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
-import { first, Observable } from 'rxjs';
+import { first, map, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { CardModule } from 'primeng/card';
@@ -20,8 +20,12 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { type User } from '../../types/User';
 import { UserComponent } from '../../core/user/user.component';
 import { UserFormComponent } from '../user-form/user-form.component';
-import { selectAllUsers } from '../../store/user/user.selectors';
+import {
+  selectAllUsers,
+  selectUserEntities,
+} from '../../store/user/user.selectors';
 import { logout } from '../../store/auth/auth.actions';
+import { deleteUsers } from '../../store/user/user.actions';
 
 @Component({
   selector: 'app-users',
@@ -63,7 +67,6 @@ export class UsersComponent {
     const message = user
       ? `Are you sure you want to remove ${user.name}`
       : `Are you sure you want to remove ${this.selectedUsers.length} users`;
-
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       message,
@@ -71,13 +74,37 @@ export class UsersComponent {
       acceptLabel: 'Delete',
       rejectLabel: 'Cancel',
       accept: () => {
-        this.messageService.add({
-          severity: 'contrast',
-          summary: user
-            ? `${user.name} removed`
-            : `${this.selectedUsers.length} users removed`,
-          life: 3000,
-        });
+        const users = user ? [user.id] : this.selectedUsers;
+
+        if (!users.length) {
+          return;
+        }
+
+        if (users.length > 1) {
+          this.deselectAll();
+        }
+
+        this.store
+          .select(selectUserEntities)
+          .pipe(
+            map((entities) =>
+              Object.keys(entities).filter((key) => {
+                const id = entities[key]?.id;
+                return id && users.indexOf(id) > -1;
+              }),
+            ),
+            first(),
+          )
+          .subscribe((ids) => {
+            this.store.dispatch(deleteUsers({ ids }));
+            this.messageService.add({
+              severity: 'contrast',
+              summary: user
+                ? `${user.name} removed`
+                : `${this.selectedUsers.length} users removed`,
+              life: 3000,
+            });
+          });
       },
     });
   }
@@ -109,5 +136,9 @@ export class UsersComponent {
   search($event: Event) {
     const string = ($event.target as HTMLInputElement).value;
     this.table?.filterGlobal(string, 'contains');
+  }
+
+  deselectAll() {
+    this.selectedUsers = [];
   }
 }
