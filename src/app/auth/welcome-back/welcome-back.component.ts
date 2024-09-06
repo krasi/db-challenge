@@ -35,7 +35,6 @@ export class WelcomeBackComponent {
   constructor(private store: Store) {
     effect(() => {
       if (this.id()) {
-        console.log(this.id());
         this.store
           .select(selectUserById(this.id()))
           .pipe(first())

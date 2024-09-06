@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
@@ -6,7 +6,7 @@ import { first, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { CardModule } from 'primeng/card';
-import { TableModule } from 'primeng/table';
+import { Table, TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
@@ -49,6 +49,7 @@ export class UsersComponent {
   users$: Observable<User[]> = this.store.select(selectAllUsers);
   selectedUsers: number[] = [];
   ref: DynamicDialogRef | undefined;
+  @ViewChild('table') table?: Table;
 
   constructor(
     private confirmationService: ConfirmationService,
@@ -103,5 +104,10 @@ export class UsersComponent {
   logout() {
     this.store.dispatch(logout());
     this.router.navigate(['/']);
+  }
+
+  search($event: Event) {
+    const string = ($event.target as HTMLInputElement).value;
+    this.table?.filterGlobal(string, 'contains');
   }
 }

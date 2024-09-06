@@ -15,7 +15,13 @@
       />
     </div>
   </ng-template>
-  <p-table [value]="users" [paginator]="true" [rows]="5">
+  <p-table
+    #table
+    [value]="users"
+    [paginator]="true"
+    [rows]="5"
+    [globalFilterFields]="['name', 'email', 'title', 'department']"
+  >
     <ng-template pTemplate="caption">
       <div class="table-header">
         <h4>Company Employees</h4>
@@ -24,7 +30,12 @@
             <p-inputIcon>
               <i class="pi pi-search"></i>
             </p-inputIcon>
-            <input pInputText type="text" placeholder="Search" />
+            <input
+              pInputText
+              type="text"
+              placeholder="Search"
+              (input)="search($event)"
+            />
           </p-iconField>
           <p-button
             label="New"
