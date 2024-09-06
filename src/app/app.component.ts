@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { populate } from './store/user/user.actions';
+import { populateUsers } from './store/user/user.actions';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +14,6 @@ export class AppComponent implements OnInit {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.store.dispatch(populate());
+    this.store.dispatch(populateUsers());
   }
 }

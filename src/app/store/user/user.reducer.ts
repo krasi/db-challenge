@@ -2,7 +2,12 @@ import { createReducer, on } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
 import { type User } from '../../types/User';
-import { populate } from './user.actions';
+import {
+  addUser,
+  deleteUsers,
+  populateUsers,
+  updateUser,
+} from './user.actions';
 import { usersMock } from '../../mocks/users';
 
 export const adapter: EntityAdapter<User> = createEntityAdapter<User>();
@@ -16,7 +21,10 @@ export const initialState: UserState = adapter.getInitialState({
 
 export const userReducer = createReducer(
   initialState,
-  on(populate, (state) => adapter.addMany(usersMock, state)),
+  on(populateUsers, (state) => adapter.addMany(usersMock, state)),
+  on(addUser, (state, user) => adapter.addOne(user, state)),
+  on(updateUser, (state, { update }) => adapter.updateOne(update, state)),
+  on(deleteUsers, (state, { ids }) => adapter.removeMany(ids, state)),
 );
 
 export const { selectAll, selectTotal } = adapter.getSelectors();
