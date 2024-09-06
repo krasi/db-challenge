@@ -15,7 +15,7 @@ describe('User Selectors', () => {
 
   it('should select all users with selectAllUsers', () => {
     const result = selectAllUsers.projector(initialState);
-    expect(result.length).toEqual(selectAllUsers.length);
+    expect(result.length).toEqual(5);
   });
 
   it('should select user by email with selectUserByEmail', () => {
