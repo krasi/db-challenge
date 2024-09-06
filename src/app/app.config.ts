@@ -17,6 +17,7 @@ import { userReducer } from './store/user/user.reducer';
 import { authReducer } from './store/auth/auth.reducer';
 import { AuthEffects } from './store/auth/auth.effects';
 import { rememberReducer } from './store/remember/remember.reducer';
+import { RememberEffects } from './store/remember/remember.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -33,7 +34,7 @@ export const appConfig: ApplicationConfig = {
         metaReducers: [storageSyncMetaReducer],
       },
     ),
-    provideEffects(AuthEffects),
+    provideEffects(AuthEffects, RememberEffects),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ],
 };

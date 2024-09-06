@@ -7,11 +7,12 @@
   </div>
   <ng-template pTemplate="footer">
     <div class="actions">
-      <p-button size="large" label="Click here to sign in" />
+      <p-button size="large" label="Click here to sign in" (onClick)="login()" />
       <p-button
         size="small"
         [outlined]="true"
         label="Or use a different account"
+        (onClick)="useDifferent()"
       />
     </div>
   </ng-template>
