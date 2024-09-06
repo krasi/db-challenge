@@ -1,5 +1,5 @@
 @let userData = user();
-@let firstLetter = userData ? userData.name[0] : "";
+@let firstLetter = userData?.name?.charAt(0) || "";
 
 <div class="user">
   <p-avatar size="xlarge" [label]="firstLetter" />

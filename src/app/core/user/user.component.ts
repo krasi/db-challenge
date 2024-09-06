@@ -12,5 +12,5 @@ import { type User } from '../../types/User';
   styleUrl: './user.component.scss',
 })
 export class UserComponent {
-  user = input<User>();
+  user = input<Partial<User>>();
 }

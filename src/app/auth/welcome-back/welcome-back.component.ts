@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
@@ -15,11 +15,5 @@ import { type User } from '../../types/User';
   styleUrl: './welcome-back.component.scss',
 })
 export class WelcomeBackComponent {
-  user: User = {
-    id: 0,
-    name: 'Krasimir Stavrev',
-    email: 'krasimir@stavrev.dev',
-    title: 'Senior Software Engineer',
-    department: 'Technology',
-  };
+  user = input<Partial<User>>();
 }

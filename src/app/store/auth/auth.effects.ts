@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of, combineLatest } from 'rxjs';
-import { delay, map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 import { login, loginFail, loginSuccess } from './auth.actions';
 import { selectUserByEmail } from '../user/user.selectors';
@@ -29,7 +29,6 @@ export class AuthEffects {
 
         return loginSuccess(user);
       }),
-      delay(500),
       tap(() => {
         this.router.navigate(['/users']);
       }),

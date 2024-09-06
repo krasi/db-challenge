@@ -1,0 +1,7 @@
+@let remember = remember$ | async;
+
+@if (remember) {
+  <app-welcome-back [user]="remember" />
+} @else {
+  <app-login />
+}
