@@ -67,10 +67,15 @@ export class UsersComponent {
       this.isAdmin.set(!!user.admin);
     }),
   );
-  users$: Observable<User[]> = this.store.select(selectAllUsers);
+  users$: Observable<User[]> = this.store.select(selectAllUsers).pipe(
+    tap((users) => {
+      this.nextId.set(users.length + 1);
+    }),
+  );
   selectedUsers: number[] = [];
   ref: DynamicDialogRef | undefined;
   isAdmin = signal(false);
+  nextId = signal(0);
   @ViewChild('table') table?: Table;
 
   constructor(
@@ -137,7 +142,10 @@ export class UsersComponent {
     this.ref = this.dialogService.open(UserFormComponent, {
       header: user ? 'Edit an employee' : 'Add an employee',
       data: {
-        user,
+        user: {
+          ...user,
+          id: this.nextId(),
+        },
       },
     });
 
