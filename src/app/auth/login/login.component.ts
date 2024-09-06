@@ -1,5 +1,10 @@
-import { Component } from '@angular/core';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Store } from '@ngrx/store';
 
 import { CardModule } from 'primeng/card';
@@ -21,26 +26,27 @@ import { login } from '../../store/auth/auth.actions';
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
-  email = new FormControl('', [Validators.required]);
-  password = new FormControl('', [Validators.required]);
-  remember = new FormControl(false);
+  form = new FormGroup({
+    email: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required]),
+    remember: new FormControl(false),
+  });
 
   constructor(private store: Store) {}
 
   login() {
-    if (
-      this.email.valid &&
-      this.password.valid &&
-      this.email.value &&
-      this.password.value
-    ) {
+    this.form.controls.password.markAsDirty();
+    this.form.controls.email.markAsDirty();
+    const { email, password, remember } = this.form.controls;
+    if (this.form.valid && email.value && password.value) {
       this.store.dispatch(
         login({
-          email: this.email.value,
-          password: this.password.value,
-          remember: !!this.remember.value,
+          email: email.value,
+          password: password.value,
+          remember: !!remember.value,
         }),
       );
     }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { InputTextModule } from 'primeng/inputtext';
@@ -12,6 +12,7 @@ import { type User } from '../../types/User';
   imports: [ReactiveFormsModule, InputTextModule, ButtonModule],
   templateUrl: './user-form.component.html',
   styleUrl: './user-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserFormComponent {
   name = new FormControl('', [Validators.required]);

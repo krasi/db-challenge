@@ -6,3 +6,11 @@ export const selectAuthUser = createSelector(
   selectAuthState,
   ({ entity }) => entity,
 );
+export const selectAuthError = createSelector(
+  selectAuthState,
+  ({ error }) => error,
+);
+export const selectAuthLoading = createSelector(
+  selectAuthState,
+  ({ loading }) => loading,
+);

@@ -8,12 +8,14 @@ import { login, loginFail, loginSuccess } from './auth.actions';
 import { selectUserByEmail } from '../user/user.selectors';
 import { clearRemember, setRemember } from '../remember/remember.actions';
 import { Router } from '@angular/router';
+import { simulateNetwork } from '../../core/operators';
 
 @Injectable()
 export class AuthEffects {
   auth$ = createEffect(() =>
     this.actions$.pipe(
       ofType(login),
+      simulateNetwork(),
       switchMap(({ email, remember }) =>
         combineLatest([
           this.store.select(selectUserByEmail(email)),

@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
@@ -18,6 +18,7 @@ import {
   imports: [CardModule, ButtonModule, AvatarModule, UserComponent],
   templateUrl: './welcome-back.component.html',
   styleUrl: './welcome-back.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WelcomeBackComponent {
   user = input<Partial<User>>();

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { CardModule } from 'primeng/card';
@@ -41,6 +41,7 @@ import { AsyncPipe } from '@angular/common';
   providers: [ConfirmationService, MessageService, DialogService],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersComponent {
   users$: Observable<User[]> = this.store.select(selectAllUsers);
