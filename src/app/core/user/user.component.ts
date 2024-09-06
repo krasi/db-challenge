@@ -13,5 +13,5 @@ import { type User } from '../../types/User';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserComponent {
-  user = input<Partial<User>>();
+  user = input<User>();
 }

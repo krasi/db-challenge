@@ -6,18 +6,18 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { authRemember } from './remember.actions';
-import { selectRemember } from './remember.selectors';
+import { selectRememberId } from './remember.selectors';
 import { loginFail, loginSuccess } from '../auth/auth.actions';
-import { selectUserByEmail } from '../user/user.selectors';
+import { selectUserById } from '../user/user.selectors';
 
 @Injectable()
 export class RememberEffects {
   authRemember$ = createEffect(() =>
     this.actions$.pipe(
       ofType(authRemember),
-      switchMap(() => this.store.select(selectRemember)),
-      switchMap(({ email }) =>
-        email ? this.store.select(selectUserByEmail(email)) : of(null),
+      switchMap(() => this.store.select(selectRememberId)),
+      switchMap((id) =>
+        id ? this.store.select(selectUserById(id)) : of(null),
       ),
       map((user) => {
         if (!user) {

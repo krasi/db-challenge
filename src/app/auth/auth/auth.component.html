@@ -11,7 +11,7 @@
   }
   <div class="auth__form">
     @if (remember) {
-      <app-welcome-back [user]="remember" />
+      <app-welcome-back [id]="remember" />
     } @else {
       <app-login />
     }

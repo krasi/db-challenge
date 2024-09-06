@@ -27,7 +27,9 @@ export class AuthEffects {
           return loginFail({ error: 'Wrong email' });
         }
 
-        this.store.dispatch(remember ? setRemember(user) : clearRemember());
+        this.store.dispatch(
+          remember ? setRemember({ id: user.id }) : clearRemember(),
+        );
 
         return loginSuccess(user);
       }),

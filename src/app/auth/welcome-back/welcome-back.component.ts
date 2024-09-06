@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  input,
+} from '@angular/core';
 
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
@@ -11,19 +16,40 @@ import {
   authRemember,
   clearRemember,
 } from '../../store/remember/remember.actions';
+import { BehaviorSubject, first } from 'rxjs';
+import { selectUserById } from '../../store/user/user.selectors';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-welcome-back',
   standalone: true,
-  imports: [CardModule, ButtonModule, AvatarModule, UserComponent],
+  imports: [CardModule, ButtonModule, AvatarModule, UserComponent, AsyncPipe],
   templateUrl: './welcome-back.component.html',
   styleUrl: './welcome-back.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WelcomeBackComponent {
-  user = input<Partial<User>>();
+  id = input.required<number>();
+  user$ = new BehaviorSubject<User | undefined>(undefined);
 
-  constructor(private store: Store) {}
+  constructor(private store: Store) {
+    effect(() => {
+      if (this.id()) {
+        console.log(this.id());
+        this.store
+          .select(selectUserById(this.id()))
+          .pipe(first())
+          .subscribe((user) => {
+            if (!user?.name) {
+              this.useDifferent();
+              return;
+            }
+
+            this.user$.next(user);
+          });
+      }
+    });
+  }
 
   login() {
     this.store.dispatch(authRemember());

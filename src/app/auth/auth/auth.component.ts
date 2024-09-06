@@ -6,14 +6,14 @@ import {
 } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { filter, map } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
-import { selectRemember } from '../../store/remember/remember.selectors';
+import { selectRememberId } from '../../store/remember/remember.selectors';
 import { LoginComponent } from '../login/login.component';
 import { WelcomeBackComponent } from '../welcome-back/welcome-back.component';
 import {
@@ -37,9 +37,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthComponent implements OnInit, OnDestroy {
-  remember$ = this.store
-    .select(selectRemember)
-    .pipe(map((user) => (!user.name ? undefined : user)));
+  remember$ = this.store.select(selectRememberId);
   loading$ = this.store.select(selectAuthLoading);
 
   private errorSubscription?: Subscription;

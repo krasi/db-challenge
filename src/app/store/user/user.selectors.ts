@@ -7,3 +7,7 @@ export const selectUserByEmail = (byEmail: string) =>
   createSelector(selectAllUsers, (users) =>
     users.find(({ email }) => email === byEmail),
   );
+export const selectUserById = (byId: number) =>
+  createSelector(selectAllUsers, (users) =>
+    users.find(({ id }) => id === byId),
+  );

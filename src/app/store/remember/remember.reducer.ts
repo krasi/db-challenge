@@ -1,17 +1,18 @@
 import { createReducer, on } from '@ngrx/store';
 
-import { type User } from '../../types/User';
 import { setRemember, clearRemember } from './remember.actions';
 
-export type RememberState = Partial<User>;
+export interface RememberState {
+  id?: number;
+}
 
 export const initialState: RememberState = {};
 
 export const rememberReducer = createReducer(
   initialState,
-  on(setRemember, (state, user) => ({
+  on(setRemember, (state, { id }) => ({
     ...state,
-    ...user,
+    id,
   })),
   on(clearRemember, () => initialState),
 );

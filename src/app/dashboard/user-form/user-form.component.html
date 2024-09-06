@@ -39,11 +39,10 @@
       (keydown.enter)="save()"
     />
   </label>
-  <!-- eslint-disable-next-line @angular-eslint/template/label-has-associated-control -->
-  <label class="form__checkbox">
-    <p-inputSwitch formControlName="admin" />
-    Admin
-  </label>
+  <div class="form__checkbox">
+    <p-inputSwitch inputId="isAdmin" formControlName="admin" />
+    <label for="isAdmin">Admin</label>
+  </div>
   <div class="save">
     <p-button (onClick)="save()" label="Save" />
   </div>
