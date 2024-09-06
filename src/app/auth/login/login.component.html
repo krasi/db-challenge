@@ -6,25 +6,27 @@
         placeholder="Email Address"
         type="text"
         pInputText
-        [formControl]="email"
+        (keydown.enter)="login()"
+        [formControl]="form.controls.email"
       />
     </label>
     <label class="form__field">
       Password
       <input
         placeholder="Password"
-        type="text"
+        type="password"
         pInputText
-        [formControl]="password"
+        (keydown.enter)="login()"
+        [formControl]="form.controls.password"
       />
     </label>
     <!-- eslint-disable-next-line @angular-eslint/template/label-has-associated-control -->
     <label class="form__checkbox">
-      <p-checkbox [formControl]="remember" [value]="true" />
+      <p-checkbox [formControl]="form.controls.remember" [value]="true" />
       Remember me
     </label>
   </div>
   <ng-template pTemplate="footer">
-    <p-button size="large" label="Sign In" />
+    <p-button (onClick)="login()" size="large" label="Sign In" />
   </ng-template>
 </p-card>

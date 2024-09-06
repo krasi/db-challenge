@@ -1,7 +1,13 @@
-<div class="form">
+<form class="form" [formGroup]="form">
   <label class="form__field">
     Name
-    <input placeholder="Name" type="text" pInputText [formControl]="name" />
+    <input
+      placeholder="Name"
+      type="text"
+      pInputText
+      formControlName="name"
+      (keydown.enter)="save()"
+    />
   </label>
   <label class="form__field">
     Email Address
@@ -9,12 +15,19 @@
       placeholder="Email Address"
       type="text"
       pInputText
-      [formControl]="email"
+      formControlName="email"
+      (keydown.enter)="save()"
     />
   </label>
   <label class="form__field">
     Title
-    <input placeholder="Title" type="text" pInputText [formControl]="title" />
+    <input
+      placeholder="Title"
+      type="text"
+      pInputText
+      formControlName="title"
+      (keydown.enter)="save()"
+    />
   </label>
   <label class="form__field">
     Department
@@ -22,10 +35,15 @@
       placeholder="Department"
       type="text"
       pInputText
-      [formControl]="department"
+      formControlName="department"
+      (keydown.enter)="save()"
     />
   </label>
+  <div class="form__checkbox">
+    <p-inputSwitch inputId="isAdmin" formControlName="admin" />
+    <label for="isAdmin">Admin</label>
+  </div>
   <div class="save">
     <p-button (onClick)="save()" label="Save" />
   </div>
-</div>
+</form>

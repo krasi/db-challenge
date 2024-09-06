@@ -1,0 +1,19 @@
+@let remember = remember$ | async;
+@let loading = loading$ | async;
+
+<p-toast />
+
+<div [class]="'auth' + (loading ? ' auth--loading' : '')">
+  @if (loading) {
+    <div class="auth__spinner">
+      <p-progressSpinner ariaLabel="loading" />
+    </div>
+  }
+  <div class="auth__form">
+    @if (remember) {
+      <app-welcome-back [id]="remember" />
+    } @else {
+      <app-login />
+    }
+  </div>
+</div>
