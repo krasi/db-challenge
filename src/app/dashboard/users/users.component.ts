@@ -17,7 +17,7 @@ import { type User } from '../../types/User';
 import { UserComponent } from '../../core/user/user.component';
 import { UserFormComponent } from '../user-form/user-form.component';
 import { first, Observable } from 'rxjs';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { selectAllUsers } from '../../store/user/user.selectors';
 import { AsyncPipe } from '@angular/common';
 
@@ -43,7 +43,7 @@ import { AsyncPipe } from '@angular/common';
   styleUrl: './users.component.scss',
 })
 export class UsersComponent {
-  users$: Observable<User[]> = this.store.pipe(select(selectAllUsers));
+  users$: Observable<User[]> = this.store.select(selectAllUsers);
   selectedUsers: number[] = [];
   ref: DynamicDialogRef | undefined;
 
