@@ -11,6 +11,8 @@ describe('User Selectors', () => {
   const initialState: UserState = {
     ids: ['1', '2', '3', '4', '5'],
     entities: usersList,
+    loading: false,
+    error: null,
   };
 
   it('should select all users with selectAllUsers', () => {

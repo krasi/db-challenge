@@ -6,6 +6,10 @@ export const selectUserEntities = createSelector(
   selectUserState,
   selectEntities,
 );
+export const selectUserLoading = createSelector(
+  selectUserState,
+  ({ loading }) => loading,
+);
 export const selectAllUsers = createSelector(selectUserState, selectAll);
 export const selectUserByEmail = (byEmail: string) =>
   createSelector(selectAllUsers, (users) =>

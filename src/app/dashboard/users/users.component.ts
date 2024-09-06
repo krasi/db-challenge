@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  OnInit,
   signal,
   ViewChild,
 } from '@angular/core';
@@ -28,9 +29,10 @@ import { UserFormComponent } from '../user-form/user-form.component';
 import {
   selectAllUsers,
   selectUserEntities,
+  selectUserLoading,
 } from '../../store/user/user.selectors';
 import { logout } from '../../store/auth/auth.actions';
-import { deleteUsers } from '../../store/user/user.actions';
+import { deleteUsers, loadUsers } from '../../store/user/user.actions';
 import { selectAuthUser } from '../../store/auth/auth.selectors';
 
 @Component({
@@ -55,7 +57,7 @@ import { selectAuthUser } from '../../store/auth/auth.selectors';
   styleUrl: './users.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsersComponent {
+export class UsersComponent implements OnInit {
   currentUser$: Observable<User> = this.store.select(selectAuthUser).pipe(
     tap((user) => {
       if (!user) {
@@ -72,6 +74,7 @@ export class UsersComponent {
       this.nextId.set(users.length + 1);
     }),
   );
+  loading$ = this.store.select(selectUserLoading);
   selectedUsers: number[] = [];
   ref: DynamicDialogRef | undefined;
   isAdmin = signal(false);
@@ -85,6 +88,10 @@ export class UsersComponent {
     private store: Store,
     private router: Router,
   ) {}
+
+  ngOnInit(): void {
+    this.store.dispatch(loadUsers());
+  }
 
   confirmRemove(event: Event, user?: User) {
     if (!this.isAdmin()) {

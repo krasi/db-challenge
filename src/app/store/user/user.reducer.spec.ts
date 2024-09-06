@@ -44,6 +44,8 @@ export const usersList = {
 const initialState: UserState = {
   ids: ['1', '2', '3', '4', '5'],
   entities: usersList,
+  loading: false,
+  error: null,
 };
 
 describe('User Reducer', () => {

@@ -32,7 +32,7 @@ export class LoginComponent {
   form = new FormGroup({
     email: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
-    remember: new FormControl(false),
+    remember: new FormControl(true),
   });
 
   constructor(private store: Store) {}
