@@ -21,7 +21,7 @@ export class RememberEffects {
       ),
       map((user) => {
         if (!user) {
-          return loginFail({ error: 'Wrong email' });
+          return loginFail({ error: '' });
         }
 
         return loginSuccess(user);
