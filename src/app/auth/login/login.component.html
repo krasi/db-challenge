@@ -13,7 +13,7 @@
       Password
       <input
         placeholder="Password"
-        type="text"
+        type="password"
         pInputText
         [formControl]="password"
       />
@@ -25,6 +25,6 @@
     </label>
   </div>
   <ng-template pTemplate="footer">
-    <p-button size="large" label="Sign In" />
+    <p-button (onClick)="login()" size="large" label="Sign In" />
   </ng-template>
 </p-card>

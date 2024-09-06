@@ -10,7 +10,7 @@ import { AppComponent } from './app/app.component';
 (async () => {
   await getAllDataFromLocalForage({
     driver: localForage.LOCALSTORAGE,
-    keys: ['users'],
+    keys: ['users', 'remember'],
   });
   await bootstrapApplication(AppComponent, appConfig);
 })().catch((err) => console.error(err));

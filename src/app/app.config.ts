@@ -14,6 +14,9 @@ import { storageSyncMetaReducer } from 'ngrx-store-persist';
 
 import { routes } from './app.routes';
 import { userReducer } from './store/user/user.reducer';
+import { authReducer } from './store/auth/auth.reducer';
+import { AuthEffects } from './store/auth/auth.effects';
+import { rememberReducer } from './store/remember/remember.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,12 +26,14 @@ export const appConfig: ApplicationConfig = {
     provideStore(
       {
         users: userReducer,
+        auth: authReducer,
+        remember: rememberReducer,
       },
       {
         metaReducers: [storageSyncMetaReducer],
       },
     ),
-    provideEffects(),
+    provideEffects(AuthEffects),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ],
 };
