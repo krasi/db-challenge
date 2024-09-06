@@ -1,5 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AsyncPipe } from '@angular/common';
+import { first, Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
@@ -16,10 +20,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { type User } from '../../types/User';
 import { UserComponent } from '../../core/user/user.component';
 import { UserFormComponent } from '../user-form/user-form.component';
-import { first, Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
 import { selectAllUsers } from '../../store/user/user.selectors';
-import { AsyncPipe } from '@angular/common';
+import { logout } from '../../store/auth/auth.actions';
 
 @Component({
   selector: 'app-users',
@@ -53,6 +55,7 @@ export class UsersComponent {
     private messageService: MessageService,
     private dialogService: DialogService,
     private store: Store,
+    private router: Router,
   ) {}
 
   confirmRemove(event: Event, user?: User) {
@@ -95,5 +98,10 @@ export class UsersComponent {
         });
       }
     });
+  }
+
+  logout() {
+    this.store.dispatch(logout());
+    this.router.navigate(['/']);
   }
 }
