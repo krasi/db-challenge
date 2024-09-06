@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  OnInit,
   signal,
   ViewChild,
 } from '@angular/core';
@@ -28,9 +29,10 @@ import { UserFormComponent } from '../user-form/user-form.component';
 import {
   selectAllUsers,
   selectUserEntities,
+  selectUserLoading,
 } from '../../store/user/user.selectors';
 import { logout } from '../../store/auth/auth.actions';
-import { deleteUsers } from '../../store/user/user.actions';
+import { deleteUsers, loadUsers } from '../../store/user/user.actions';
 import { selectAuthUser } from '../../store/auth/auth.selectors';
 
 @Component({
@@ -55,7 +57,7 @@ import { selectAuthUser } from '../../store/auth/auth.selectors';
   styleUrl: './users.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsersComponent {
+export class UsersComponent implements OnInit {
   currentUser$: Observable<User> = this.store.select(selectAuthUser).pipe(
     tap((user) => {
       if (!user) {
@@ -67,10 +69,16 @@ export class UsersComponent {
       this.isAdmin.set(!!user.admin);
     }),
   );
-  users$: Observable<User[]> = this.store.select(selectAllUsers);
+  users$: Observable<User[]> = this.store.select(selectAllUsers).pipe(
+    tap((users) => {
+      this.nextId.set(users.length + 1);
+    }),
+  );
+  loading$ = this.store.select(selectUserLoading);
   selectedUsers: number[] = [];
   ref: DynamicDialogRef | undefined;
   isAdmin = signal(false);
+  nextId = signal(0);
   @ViewChild('table') table?: Table;
 
   constructor(
@@ -80,6 +88,10 @@ export class UsersComponent {
     private store: Store,
     private router: Router,
   ) {}
+
+  ngOnInit(): void {
+    this.store.dispatch(loadUsers());
+  }
 
   confirmRemove(event: Event, user?: User) {
     if (!this.isAdmin()) {
@@ -137,7 +149,11 @@ export class UsersComponent {
     this.ref = this.dialogService.open(UserFormComponent, {
       header: user ? 'Edit an employee' : 'Add an employee',
       data: {
-        user,
+        user: user
+          ? user
+          : {
+              id: this.nextId(),
+            },
       },
     });
 

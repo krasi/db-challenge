@@ -42,7 +42,7 @@ export class UserFormComponent {
     private config: DynamicDialogConfig<{ user: User }>,
     private store: Store,
   ) {
-    if (this.config.data?.user) {
+    if (this.config.data?.user.name) {
       const { name, email, title, department, admin } = this.config.data.user;
       this.form.setValue({ name, email, title, department, admin: !!admin });
     }
@@ -55,7 +55,7 @@ export class UserFormComponent {
       );
       return;
     }
-    if (this.config.data?.user) {
+    if (this.config.data?.user.name) {
       this.store.dispatch(
         updateUser({
           update: {
@@ -70,7 +70,13 @@ export class UserFormComponent {
       return;
     }
 
-    this.store.dispatch(addUser(this.form.value as User));
+    this.store.dispatch(
+      addUser({
+        ...(this.form.value as User),
+        // this will usually be handled by the backend
+        id: this.config.data?.user.id || 0,
+      }),
+    );
     this.ref.close({
       action: 'added',
     });
